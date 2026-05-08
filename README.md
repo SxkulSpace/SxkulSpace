@@ -1,4 +1,4 @@
-## Bienvenidos a todos
+## Bienvenidos a todos / Welcome everybody
 
 I'm an artist interested in music, graphite drawing, chess, programming, game development, reading, and more.
 You can find my socials below (Discord and Gmail just shows my username, not a link to anything.):
