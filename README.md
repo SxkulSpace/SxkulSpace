@@ -1,7 +1,7 @@
 ## Bienvenidos a todos
 
 I'm an artist interested in music, graphite drawing, chess, programming, game development, reading, and more.
-You can find my socials below (discord just shows my username, not a link to anything.):
+You can find my socials below (Discord and Gmail just shows my username, not a link to anything.):
 
 [![YouTube](https://img.shields.io/badge/youtube-%23FF0000.svg?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@SxkulSpace)
 
@@ -14,3 +14,5 @@ You can find my socials below (discord just shows my username, not a link to any
 [![Spotify](https://img.shields.io/badge/SxkulSpace-1DB954.svg?style=for-the-badge&logo=spotify&logoColor=white)](https://open.spotify.com/user/31nzagf4hiifq6ltcxqsojfhioha)
 
 [![Gmail](https://img.shields.io/badge/sxkulspace@gmail.com-EA4335.svg?style=for-the-badge&logo=gmail&logoColor=white)](mailto:sxkulspace@gmail.com)
+
+[![Instagram](https://img.shields.io/badge/sxkul.space-E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/sxkul.space/)
