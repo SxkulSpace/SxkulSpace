@@ -195,7 +195,6 @@ function getColor(genre) {
 }
 
 function loadData() {
-  try { const s = localStorage.getItem('music-tl-v5'); if (s) return JSON.parse(s); } catch(_) {}
   return JSON.parse(JSON.stringify(DEFAULTS));
 }
 function saveData() {
