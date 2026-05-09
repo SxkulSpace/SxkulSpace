@@ -16,3 +16,5 @@ You can find my socials below (Discord and Gmail just shows my username, not a l
 [![Gmail](https://img.shields.io/badge/sxkulspace@gmail.com-EA4335.svg?style=for-the-badge&logo=gmail&logoColor=white)](mailto:sxkulspace@gmail.com)
 
 [![Instagram](https://img.shields.io/badge/sxkul.space-E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/sxkul.space/)
+
+MUSIC GENRE TIERLIST: (https://yourusername.github.io/SxkulSpace/tierlist.html)
