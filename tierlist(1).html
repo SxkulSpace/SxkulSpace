@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>music tier list</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      padding: 32px 24px 64px;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; }
+
+    h1 { font-size: 24px; font-weight: 600; color: #f0f6fc; margin-bottom: 20px; }
+
+    .note {
+      background: #161b22; border: 1px solid #30363d;
+      border-radius: 6px; padding: 12px 16px; margin-bottom: 24px;
+      font-size: 13px; color: #8b949e; line-height: 1.6;
+    }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+    thead th { background: #161b22; color: #8b949e; font-weight: 600; font-size: 13px; padding: 10px 16px; text-align: center; border-bottom: 1px solid #30363d; }
+    thead th:first-child { text-align: left; width: 80px; }
+    tbody tr { border-bottom: 1px solid #21262d; }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 12px 16px; vertical-align: middle; }
+    td:first-child { font-weight: 700; font-size: 18px; border-right: 1px solid #21262d; text-align: center; width: 80px; white-space: nowrap; }
+    td:last-child { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 44px; }
+
+    /* Tier letter colors — light green to dark sage */
+    .tier-s { color: #d4f1d4; }
+    .tier-a { color: #b5deb5; }
+    .tier-b { color: #8fc28f; }
+    .tier-c { color: #6aa66a; }
+    .tier-d { color: #4e8b5f; }
+    .tier-f { color: #3a6b4a; }
+
+    /* Badges — sage green palette */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+      white-space: nowrap; cursor: default;
+    }
+    .badge .del {
+      display: none; background: none; border: none;
+      color: inherit; cursor: pointer; font-size: 11px;
+      opacity: 0.6; padding: 0 0 0 2px; line-height: 1;
+    }
+    .badge:hover .del { display: inline; }
+
+    /* Badge shades: light mint → deep sage */
+    .col-0  { background: #c8e6c8; color: #2d4f2d; }
+    .col-1  { background: #b2d9b2; color: #2a4a2a; }
+    .col-2  { background: #9dcc9d; color: #274427; }
+    .col-3  { background: #88bf88; color: #243d24; }
+    .col-4  { background: #73b273; color: #213721; }
+    .col-5  { background: #5e9e6e; color: #1e301e; }
+    .col-6  { background: #4e8b5f; color: #dff0df; }
+    .col-7  { background: #3e7850; color: #dff0df; }
+    .col-8  { background: #2f6642; color: #d4ecd4; }
+    .col-9  { background: #205434; color: #c8e6c8; }
+    .col-10 { background: #a8cca8; color: #243d24; }
+    .col-11 { background: #7ab87a; color: #1e301e; }
+
+    .empty-cell { color: #484f58; font-style: italic; font-size: 13px; }
+
+    /* Edit toolbar */
+    .toolbar { display: none; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+    .toolbar.visible { display: flex; }
+
+    .add-form { display: none; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .add-form.open { display: flex; }
+    .add-form label { font-size: 13px; color: #8b949e; white-space: nowrap; }
+
+    input[type="text"], input[type="password"] {
+      background: #0d1117; border: 1px solid #30363d;
+      border-radius: 6px; color: #c9d1d9; font-size: 13px;
+      padding: 5px 10px; outline: none;
+    }
+    input[type="text"] { width: 180px; }
+    input[type="password"] { width: 140px; }
+    input:focus { border-color: #8fc28f; }
+    input::placeholder { color: #484f58; }
+
+    select {
+      background: #161b22; border: 1px solid #30363d;
+      border-radius: 6px; color: #c9d1d9; font-size: 13px;
+      padding: 5px 10px; outline: none; cursor: pointer;
+    }
+
+    button {
+      font-size: 13px; padding: 5px 14px; border-radius: 6px;
+      cursor: pointer; border: 1px solid; font-weight: 500; transition: opacity 0.15s;
+    }
+    button:hover { opacity: 0.85; }
+
+    /* sage green primary */
+    .btn-green { background: #4e8b5f; color: #eef6ee; border-color: #5e9e6e; }
+
+    /* cream/brown outline */
+    .btn-outline { background: #2a211a; color: #d9c4a8; border-color: #5c4433; }
+    .btn-outline:hover { background: #352820; }
+
+    /* small variant */
+    .btn-small { font-size: 12px; padding: 3px 10px; }
+
+    /* edit toggle button */
+    .edit-toggle { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .edit-toggle button { font-size: 12px; padding: 4px 12px; }
+
+    .pw-row { display: none; align-items: center; gap: 8px; }
+    .pw-row.visible { display: flex; }
+    .pw-error { color: #f85149; font-size: 12px; }
+
+    .edit-hint { color: #484f58; font-size: 12px; font-style: italic; }
+
+    footer { color: #484f58; font-size: 12px; margin-top: 32px; }
+    footer a { color: #8fc28f; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>music tier list</h1>
+
+  <div class="note">Just my opinions :)</div>
+
+  <div class="edit-toggle">
+    <button class="btn-outline" id="editToggleBtn">edit</button>
+    <div class="pw-row" id="pwRow">
+      <input type="password" id="pwInput" placeholder="password" />
+      <button class="btn-green btn-small" id="pwSubmit">unlock</button>
+      <span class="pw-error" id="pwError"></span>
+    </div>
+    <span class="edit-hint" id="editHint"></span>
+  </div>
+
+  <div class="toolbar" id="toolbar">
+    <button class="btn-green" id="toggleAdd">+ add genre</button>
+    <button class="btn-outline" id="resetBtn">reset to defaults</button>
+  </div>
+
+  <div class="add-form" id="addForm">
+    <label>genre</label>
+    <input type="text" id="genreInput" placeholder="e.g. Shoegaze" maxlength="40" />
+    <label>tier</label>
+    <select id="tierSelect"></select>
+    <button class="btn-green btn-small" id="confirmAdd">add</button>
+    <button class="btn-outline btn-small" id="cancelAdd">cancel</button>
+  </div>
+
+  <table>
+    <thead><tr><th>tier</th><th>genre(s)</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
+  <footer>
+    <a href="https://github.com/yourusername">&#8592; back to profile</a>
+  </footer>
+
+</div>
+<script>
+const PASSWORD = 'yourpassword';
+
+const TIER_CLASS = { S:'tier-s', A:'tier-a', B:'tier-b', C:'tier-c', D:'tier-d', F:'tier-f' };
+
+const DEFAULTS = [
+  { tier: 'S', genres: ['Jazz', 'Lo-fi Hip Hop', 'Alternative Rock'] },
+  { tier: 'A', genres: ['Indie Pop', 'Soul', 'R&B', 'Synthwave'] },
+  { tier: 'B', genres: ['Hip Hop', 'Classic Rock', 'Electronic'] },
+  { tier: 'C', genres: ['Pop', 'Funk'] },
+  { tier: 'D', genres: ['Country'] },
+  { tier: 'F', genres: [] },
+];
+
+let tiers = loadData();
+let unlocked = false;
+
+const colorMap = {};
+let colorCounter = 0;
+function getColor(genre) {
+  const key = genre.toLowerCase();
+  if (colorMap[key] === undefined) { colorMap[key] = colorCounter % 12; colorCounter++; }
+  return colorMap[key];
+}
+
+function loadData() {
+  try { const s = localStorage.getItem('music-tl-v4'); if (s) return JSON.parse(s); } catch(_) {}
+  return JSON.parse(JSON.stringify(DEFAULTS));
+}
+function saveData() {
+  try { localStorage.setItem('music-tl-v4', JSON.stringify(tiers)); } catch(_) {}
+}
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function render() {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  const sel = document.getElementById('tierSelect');
+  sel.innerHTML = '';
+  tiers.forEach((t, ti) => {
+    const o = document.createElement('option');
+    o.value = ti; o.textContent = t.tier + ' tier';
+    sel.appendChild(o);
+  });
+
+  tiers.forEach((row, ti) => {
+    const tr = document.createElement('tr');
+
+    const tierTd = document.createElement('td');
+    const lbl = document.createElement('span');
+    lbl.className = TIER_CLASS[row.tier] || '';
+    lbl.textContent = row.tier;
+    tierTd.appendChild(lbl);
+    tr.appendChild(tierTd);
+
+    const genreTd = document.createElement('td');
+    if (!row.genres.length) {
+      const em = document.createElement('span');
+      em.className = 'empty-cell';
+      em.textContent = 'nothing here yet';
+      genreTd.appendChild(em);
+    } else {
+      row.genres.forEach((g, gi) => {
+        const badge = document.createElement('span');
+        badge.className = `badge col-${getColor(g)}`;
+        badge.innerHTML = esc(g);
+        if (unlocked) {
+          const del = document.createElement('button');
+          del.className = 'del'; del.textContent = '✕';
+          del.dataset.ti = ti; del.dataset.gi = gi; del.title = 'remove';
+          badge.appendChild(del);
+        }
+        genreTd.appendChild(badge);
+      });
+    }
+    tr.appendChild(genreTd);
+    tbody.appendChild(tr);
+  });
+
+  saveData();
+}
+
+document.getElementById('tbody').addEventListener('click', e => {
+  const btn = e.target.closest('.del');
+  if (!btn || !unlocked) return;
+  tiers[+btn.dataset.ti].genres.splice(+btn.dataset.gi, 1);
+  render();
+});
+
+document.getElementById('editToggleBtn').addEventListener('click', () => {
+  if (unlocked) {
+    unlocked = false;
+    document.getElementById('toolbar').classList.remove('visible');
+    document.getElementById('addForm').classList.remove('open');
+    document.getElementById('pwRow').classList.remove('visible');
+    document.getElementById('editToggleBtn').textContent = 'edit';
+    document.getElementById('editHint').textContent = '';
+    render();
+  } else {
+    const pwRow = document.getElementById('pwRow');
+    pwRow.classList.toggle('visible');
+    if (pwRow.classList.contains('visible')) document.getElementById('pwInput').focus();
+  }
+});
+
+function tryUnlock() {
+  if (document.getElementById('pwInput').value === PASSWORD) {
+    unlocked = true;
+    document.getElementById('pwRow').classList.remove('visible');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').textContent = '';
+    document.getElementById('toolbar').classList.add('visible');
+    document.getElementById('editToggleBtn').textContent = 'editing';
+    document.getElementById('editHint').textContent = 'click again to lock';
+    render();
+  } else {
+    document.getElementById('pwError').textContent = 'wrong password';
+    document.getElementById('pwInput').select();
+  }
+}
+document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
+document.getElementById('pwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryUnlock();
+  if (e.key === 'Escape') document.getElementById('pwRow').classList.remove('visible');
+});
+
+document.getElementById('toggleAdd').addEventListener('click', () => {
+  const f = document.getElementById('addForm');
+  f.classList.toggle('open');
+  if (f.classList.contains('open')) document.getElementById('genreInput').focus();
+});
+document.getElementById('cancelAdd').addEventListener('click', () => {
+  document.getElementById('addForm').classList.remove('open');
+});
+function doAdd() {
+  if (!unlocked) return;
+  const inp = document.getElementById('genreInput');
+  const val = inp.value.trim(); if (!val) return;
+  const ti = +document.getElementById('tierSelect').value;
+  if (!tiers[ti].genres.includes(val)) { tiers[ti].genres.push(val); render(); }
+  inp.value = ''; inp.focus();
+}
+document.getElementById('confirmAdd').addEventListener('click', doAdd);
+document.getElementById('genreInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doAdd();
+  if (e.key === 'Escape') document.getElementById('addForm').classList.remove('open');
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!unlocked) return;
+  if (confirm('Reset everything to defaults?')) {
+    tiers = JSON.parse(JSON.stringify(DEFAULTS));
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
