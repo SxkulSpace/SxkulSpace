@@ -195,11 +195,11 @@ function getColor(genre) {
 }
 
 function loadData() {
-  try { const s = localStorage.getItem('music-tl-v4'); if (s) return JSON.parse(s); } catch(_) {}
+  try { const s = localStorage.getItem('music-tl-v5'); if (s) return JSON.parse(s); } catch(_) {}
   return JSON.parse(JSON.stringify(DEFAULTS));
 }
 function saveData() {
-  try { localStorage.setItem('music-tl-v4', JSON.stringify(tiers)); } catch(_) {}
+  try { localStorage.setItem('music-tl-v5', JSON.stringify(tiers)); } catch(_) {}
 }
 function esc(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
